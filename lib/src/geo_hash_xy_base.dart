@@ -81,7 +81,7 @@ class GeoHash {
 
   /// Encode a [latLng] into a  geoHash string.
   static String encode(
-      {@required final GeoHashLatLng latLng, final int codeLength: 12}) {
+      {required GeoHashLatLng latLng, int codeLength = 12}) {
     if (codeLength > 20 || (identical(1.0, 1) && codeLength > 12)) {
       //Javascript can only handle 32 bit ints reliably.
       throw ArgumentError(
@@ -146,7 +146,7 @@ class GeoHash {
         in geoHash.codeUnits.map((r) => new String.fromCharCode(r))) {
       int thisSequence;
       try {
-        thisSequence = _base32CharToNumber[character];
+        thisSequence = _base32CharToNumber[character]!;
       } on Exception catch (_) {
         throw ArgumentError('$geoHash was not a geoHash string');
       }
@@ -212,14 +212,14 @@ class GeoHash {
 /// Holds a coordinate point.
 class GeoHashLatLng {
   /// Create a new instance of [GeoHashLatLng].
-  GeoHashLatLng({@required this.lat, @required this.lng});
+  GeoHashLatLng({required this.lat, required this.lng});
 
   /// Creates an instance from json.
   factory GeoHashLatLng.fromJson(Map<String, dynamic> json) => GeoHashLatLng(
       // ignore: avoid_as
-      lat: (json['lat'] as num)?.toDouble(),
+      lat: (json['lat'] as num).toDouble(),
       // ignore: avoid_as
-      lng: (json['lng'] as num)?.toDouble());
+      lng: (json['lng'] as num).toDouble());
 
   /// Latitude of the point.
   final double lat;
@@ -234,7 +234,7 @@ class GeoHashLatLng {
 /// Holds a coordinate bounds.
 class GeoHashLatLngBounds {
   /// Create a new instance of [GeoHashLatLngBounds].
-  GeoHashLatLngBounds({@required this.sw, @required this.ne});
+  GeoHashLatLngBounds({required this.sw, required this.ne});
 
   /// Creates an instance from json.
   factory GeoHashLatLngBounds.fromJson(Map<String, dynamic> json) =>
